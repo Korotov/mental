@@ -1,15 +1,24 @@
 const synth = window.speechSynthesis;
+let mode = 'addition';
 
 const $form = document.querySelector('.task-form');
 const $question = document.querySelector('.task_question');
 const $answer = document.querySelector('.task_answer');
 const $result = document.querySelector('.task_result');
-let mode = 'multiply';
+const $modeBtn = document.querySelectorAll('.mode_btn');
+
 const generator = {
     'addition': generateNumsForAddition,
     'multiply': generateNumsForMultiply
 }
 let currentQuestion = generator[mode]();
+$modeBtn.forEach(btn => {
+    btn.addEventListener('click', (e)=> {
+        mode = btn.dataset.mode;
+        currentQuestion = generator[mode]();
+        showTask();
+    });
+});
 showTask();
 function showTask() {
     $result.innerHTML = '';
